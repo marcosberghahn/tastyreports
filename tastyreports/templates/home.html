@@ -8,21 +8,12 @@
 {% endblock %}
 {% block content %}
   <h2>Home</h2>
-  {{ balances }}
+  <h3>Account Details</h3>
   <table id="accountDetails" class="table label-table">
-    <thead>
-      <tr>
-        <th colspan="4"><h3>Account Details</h3></th>
-      </tr>
-    </thead>
     <tbody>
       <tr>
         <th>Account Nickname:</th><td>{{ account['nickname'] }}</td>
         <th>Account Type:</th><td>{{ account['account_type_name'] }} {{ account['margin_or_cash'] }}</td>
-      </tr>
-      <tr>
-        <th>Account Number:</th><td>{{ account['account_number'] }}</td>
-        <th>Day Trader Status:</th><td>{{ account['day_trader_status'] }}</td>
       </tr>
       <tr>
         <th>Account Number:</th><td>{{ account['account_number'] }}</td>
@@ -34,4 +25,9 @@
       </tr>
     </tbody>
   </table>
+  {% if config['DEBUG'] %}
+    <h2>Debug</h2>
+    <p>{{ account }}</p>
+    <p>{{ balances }}</p>
+  {% endif %}
 {% endblock %}
