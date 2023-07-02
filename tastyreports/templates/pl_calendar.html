@@ -8,6 +8,20 @@
 {% endblock %}
 {% block content %}
   <h2>P/L Calendar</h2>
-  <p>
-    Welcome on my awesome homepage.
+  <form action="{{ url_for('pl_calendar') }}" method="post">
+    <label for="start_date">Start Date:</label><br>
+    <input type="text" id="start_date" name="start_date" value="{{ start_date }}"><br>
+    <label for="end_date">End Date:</label><br>
+    <input type="text" id="end_date" name="end_date" value="{{ end_date }}"><br>
+    <input type="submit" value="Submit">
+  </form>
+  {% for day in data %}
+    <p>{{ day }}</p>
+  {% endfor %}
+  <script>
+  $( function() {
+    $( "#start_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+    $( "#end_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+  } );
+  </script>
 {% endblock %}
