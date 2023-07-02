@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% block head %}
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <title>{% block title %}{% endblock %} - tastyreports</title>
+    {% endblock %}
+  </head>
+  <body>
+    <div id="header">
+      {% block header %}
+      <h1>tastyreports</h1>
+      <ul id="accountList" class="buttonNavList">
+        {% for item in account_numbers %}
+        <li>
+          <a href="{{ url_for('set_account', account_number=item) }}" class="{{ 'active' if item == current_account else '' }}">{{ item }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+      <ul id="reportList" class="buttonNavList">
+        <li>
+          <a href="{{ url_for('pl_calendar')}}">P/L Calendar</a>
+        </li>
+      </ul>
+      {% endblock %}
+    </div>
+    <div id="content">{% block content %}{% endblock %}</div>
+    <div id="footer">{% block footer %}{% endblock %}</div>
+  </body>
+</html>

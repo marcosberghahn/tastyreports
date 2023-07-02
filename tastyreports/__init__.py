@@ -14,6 +14,8 @@ TT_CERT_ENV = os.getenv('TT_CERT_ENV', False)
 
 app = Flask(__name__)
 
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'changeit')
+
 tt_session = Session(TT_USERNAME, TT_PASSWORD, is_certification=TT_CERT_ENV)
 
-from tastyreports.routes import home
+from tastyreports.routes import reports

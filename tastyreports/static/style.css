@@ -1,0 +1,36 @@
+ul.buttonNavList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0.5rem;
+  overflow: hidden;
+}
+
+ul.buttonNavList li {
+  float: left;
+}
+
+ul.buttonNavList li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  background-color: #333; /* Change this to your preferred button color */
+  border-radius: 5px; /* Makes the links look like buttons */
+  margin-right: 10px; /* Adds some space between the buttons */
+}
+
+ul.buttonNavList li a.active {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  background-color: #E21A23; /* Change this to your preferred button color */
+  border-radius: 5px; /* Makes the links look like buttons */
+  margin-right: 10px; /* Adds some space between the buttons */
+}
+
+ul.buttonNavList li a:hover {
+  background-color: #111; /* Change this to your preferred hover color */
+}
