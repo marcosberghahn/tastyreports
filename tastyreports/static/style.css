@@ -34,3 +34,13 @@ ul.buttonNavList li a.active {
 ul.buttonNavList li a:hover {
   background-color: #111; /* Change this to your preferred hover color */
 }
+
+.table {
+  min-width: 50%;
+}
+.table td, .table th {
+  padding: 4px;
+}
+.label-table tbody th {
+  text-align: right;
+}

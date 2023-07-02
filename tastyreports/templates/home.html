@@ -7,7 +7,31 @@
   </style>
 {% endblock %}
 {% block content %}
-  <h1>Index</h1>
-  <p class="important">
-    Welcome on my awesome homepage.
+  <h2>Home</h2>
+  {{ balances }}
+  <table id="accountDetails" class="table label-table">
+    <thead>
+      <tr>
+        <th colspan="4"><h3>Account Details</h3></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>Account Nickname:</th><td>{{ account['nickname'] }}</td>
+        <th>Account Type:</th><td>{{ account['account_type_name'] }} {{ account['margin_or_cash'] }}</td>
+      </tr>
+      <tr>
+        <th>Account Number:</th><td>{{ account['account_number'] }}</td>
+        <th>Day Trader Status:</th><td>{{ account['day_trader_status'] }}</td>
+      </tr>
+      <tr>
+        <th>Account Number:</th><td>{{ account['account_number'] }}</td>
+        <th>Day Trader Status:</th><td>{{ account['day_trader_status'] }}</td>
+      </tr>
+      <tr>
+        <th>Stock Buying Power:</th><td>{{ balances['equity-buying-power'] }}</td>
+        <th>Options Buying Power:</th><td>{{ balances['derivative-buying-power'] }}</td>
+      </tr>
+    </tbody>
+  </table>
 {% endblock %}
