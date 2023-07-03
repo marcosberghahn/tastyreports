@@ -58,11 +58,13 @@ def pl_calendar(account_number=None, start_date=None, end_date=None):
             net_liquidating_value_change = (snapshot.net_liquidating_value - prev_net_liquidating_value)
             buying_power_used = prev_snapshot.net_liquidating_value - prev_snapshot.derivative_buying_power - prev_snapshot.pending_cash
             return_on_capital = (net_liquidating_value_change / buying_power_used) * 100 if buying_power_used != 0 else 0
+            buying_power_pct_used = (buying_power_used / snapshot.net_liquidating_value) * 100 if snapshot.net_liquidating_value != 0 else 0  # Calculate percentage of buying power used
         else:
             net_liquidating_value_pct_change = 0
             net_liquidating_value_change = 0
             buying_power_used = 0
             return_on_capital = 0
+            buying_power_pct_used = 0
 
         # Add snapshot data to list
         calendar.append({
@@ -71,7 +73,8 @@ def pl_calendar(account_number=None, start_date=None, end_date=None):
             'net_liquidating_value_change': float(net_liquidating_value_change),
             'net_liquidating_value_pct_change': float(net_liquidating_value_pct_change),
             'buying_power_used': float(buying_power_used),
-            'return_on_capital': float(return_on_capital)
+            'return_on_capital': float(return_on_capital),
+            'buying_power_pct_used': float(buying_power_pct_used)
         })
 
         prev_net_liquidating_value = snapshot.net_liquidating_value

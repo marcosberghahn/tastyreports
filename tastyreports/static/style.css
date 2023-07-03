@@ -38,6 +38,10 @@ ul.buttonNavList li a.active {
   margin-right: 10px;
 }
 
+ul.buttonNavList li a.active:hover {
+  background-color: darkred;
+}
+
 ul.buttonNavList li a:hover {
   background-color: #111;
 }
@@ -98,9 +102,33 @@ ul.buttonNavList li a:hover {
 }
 
 .inline-form input[type="submit"]:hover {
-  background-color: #111;
+  background-color: darkred;
 }
 
 input#start_date {
   margin-right: 20px;
+}
+
+.bg-green {
+  background-color: #248232;
+}
+
+.bg-red {
+  background-color: #780000;
+}
+
+.bg-gray {
+  background-color: #666;
+}
+
+a.fc-event {
+  background: none !important;
+  border: none;
+  padding: 0 8px;
+  text-align: center;
+}
+
+div.calEvent {
+  padding: 4px 12px;
+  border-radius: 4px;
 }

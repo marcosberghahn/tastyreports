@@ -2,10 +2,6 @@
 {% block title %}P/L Calendar{% endblock %}
 {% block head %}
   {{ super() }}
-  <style type="text/css">
-    
-  </style>
-  
   <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
 {% endblock %}
 {% block content %}
@@ -19,43 +15,47 @@
   </form>
   <div id='calendar'></div>
 
-  {% for day in data %}
-    <p>{{ day }}</p>
-  {% endfor %}
+  {% if config['DEBUG'] %}
+    {% for day in data %}
+      <p>{{ day }}</p>
+    {% endfor %}
 
-  {% for item in snapshots %}
-    <p>{{ item }}</p>
-  {% endfor %}
+    {% for item in snapshots %}
+      <p>{{ item }}</p>
+    {% endfor %}
+  {% endif %}
 
   <script>
   $( function() {
     $( "#start_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
     $( "#end_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
   } );
+
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     var calendar_data = JSON.parse('{{ data | safe }}');
     console.log(calendar_data)
+    
     var events = calendar_data.map(function(item) {
       return {
-        title: item.date + '\n' + 'BP Use: ' + item.buying_power_used,
-        start: item.date
+        title: item.ditem || 'Daily Stats',
+        start: item.date,
+        extendedProps: item
       };
     });
+
+    function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    var prevNetLiq = null;
     var calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: 'dayGridMonth',
-      events: events,
-      eventContent: function(arg) {
-        console.log(arg.event)
-        var html = '<div class="my-custom-class">';
-        html += '<p>' + arg.event.title.split('\n')[0] + '</p>'; // Display date
-        html += '<p>' + arg.event.title.split('\n')[1] + '</p>'; // Display buying power usage
-        html += '</div>';
-
-        return { html: html };
-      }
+      events: events
     });
+
     calendar.render();
   });
+
   </script>
 {% endblock %}
