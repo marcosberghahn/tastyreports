@@ -2,12 +2,19 @@
 
 body {
   font-family: 'Inter', sans-serif;
+  padding: 1rem;
 }
-
+#header h1 {
+  margin-top: 0px !important;
+}
+h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
 ul.buttonNavList {
   list-style-type: none;
   margin: 0;
-  padding: 0.5rem;
+  padding: 0.5rem 0;
   overflow: hidden;
 }
 
@@ -21,9 +28,9 @@ ul.buttonNavList li a {
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  background-color: #333; /* Change this to your preferred button color */
-  border-radius: 5px; /* Makes the links look like buttons */
-  margin-right: 10px; /* Adds some space between the buttons */
+  background-color: #333;
+  border-radius: 5px;
+  margin-right: 10px;
 }
 
 ul.buttonNavList li a.active {
@@ -32,13 +39,17 @@ ul.buttonNavList li a.active {
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  background-color: #E21A23; /* Change this to your preferred button color */
-  border-radius: 5px; /* Makes the links look like buttons */
-  margin-right: 10px; /* Adds some space between the buttons */
+  background-color: #E21A23; /* tasty red */
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+ul.buttonNavList li a.active:hover {
+  background-color: darkred;
 }
 
 ul.buttonNavList li a:hover {
-  background-color: #111; /* Change this to your preferred hover color */
+  background-color: #111;
 }
 
 .table {
@@ -57,4 +68,83 @@ ul.buttonNavList li a:hover {
 
 .label-table tbody th {
   text-align: right;
+}
+
+.inline-form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 500px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+.inline-form label {
+  margin-right: 10px;
+  color: #333;
+  font-size: 14px;
+}
+
+.inline-form input[type="text"] {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.inline-form input[type="submit"] {
+  display: block;
+  width: 100px;
+  padding: 10px;
+  margin-left: 10px;
+  background-color: #E21A23;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.inline-form input[type="submit"]:hover {
+  background-color: darkred;
+}
+
+input#start_date {
+  margin-right: 20px;
+}
+
+.bg-green {
+  background-color: #248232;
+}
+
+.bg-red {
+  background-color: #780000;
+}
+
+.bg-gray {
+  background-color: #666;
+}
+
+a.fc-event {
+  background: none !important;
+  border: none;
+  padding: 0 8px;
+  text-align: center;
+}
+
+.fc-day-sun, .fc-day-sat {
+  width: 100px;
+}
+
+.event-content {
+  padding: 4px 12px;
+  border-radius: 4px;
+}
+
+.icon {
+  max-height: 48px;
+  margin-right: 10px;
+  margin-bottom: -5px;
 }

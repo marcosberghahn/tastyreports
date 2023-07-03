@@ -2,26 +2,70 @@
 {% block title %}P/L Calendar{% endblock %}
 {% block head %}
   {{ super() }}
-  <style type="text/css">
-    
-  </style>
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
 {% endblock %}
 {% block content %}
   <h2>P/L Calendar</h2>
-  <form action="{{ url_for('pl_calendar') }}" method="post">
+  <form action="{{ url_for('pl_calendar') }}" method="post" class="inline-form">
     <label for="start_date">Start Date:</label><br>
     <input type="text" id="start_date" name="start_date" value="{{ start_date }}"><br>
     <label for="end_date">End Date:</label><br>
     <input type="text" id="end_date" name="end_date" value="{{ end_date }}"><br>
     <input type="submit" value="Submit">
   </form>
-  {% for day in data %}
-    <p>{{ day }}</p>
-  {% endfor %}
+  <div id='calendar'></div>
+
   <script>
-  $( function() {
-    $( "#start_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
-    $( "#end_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
-  } );
+    $( function() {
+      $( "#start_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+      $( "#end_date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+    } );
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('calendar');
+      var calendar_data = JSON.parse('{{ data | safe }}');
+    
+    var events = calendar_data.map(function(item) {
+      return {
+        title: 'Daily Stats',
+        start: item.date,
+        extendedProps: item
+      };
+    });
+
+    function formattedNumber(x) {
+      x = parseFloat(x).toFixed(2); // Round to 2 decimal places
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    
+    var prevNetLiq = 0;
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      events: events,
+      eventContent: function(arg) {
+        var extendedProps = arg.event.extendedProps;
+        var contentEl = document.createElement('div');
+        contentEl.classList.add('event-content');
+        if (extendedProps['return_on_capital'] > 0) {
+          contentEl.classList.add('bg-green');
+        } else if (extendedProps['return_on_capital'] < 0) {
+          contentEl.classList.add('bg-red');
+        } else {
+          contentEl.classList.add('bg-gray');
+        }
+        contentEl.innerHTML = `
+          <p>NetLiq: $${formattedNumber(extendedProps['net_liquidating_value'])}</p>
+          <p>NetLiq Chg: $${formattedNumber(extendedProps['net_liquidating_value_change'])}</p>
+          <p>NetLiq %Chg: ${formattedNumber(extendedProps['net_liquidating_value_pct_change'])}%</p>
+          <p>BP Used: $${formattedNumber(extendedProps['buying_power_used'])}</p>
+          <p>BP %Used: ${formattedNumber(extendedProps['buying_power_pct_used'])}%</p>
+          <p>Day ROC: ${formattedNumber(extendedProps['return_on_capital'])}%</p>`;
+        return { html: contentEl.outerHTML };
+      }
+    });
+
+    calendar.render();
+  });
+
   </script>
 {% endblock %}
