@@ -15,7 +15,7 @@
   <body>
     <div id="header">
       {% block header %}
-      <h1>tastyreports</h1>
+      <h1><img src="{{ url_for('static', filename='icon-cropped.png') }}" class="icon" />tastyreports</h1>
       <ul id="accountList" class="buttonNavList">
         {% for item in account_numbers %}
         <li>
