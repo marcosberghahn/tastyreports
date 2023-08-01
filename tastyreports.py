@@ -1,45 +1,43 @@
 from tastytrade.session import Session
 from tastytrade.account import Account
 import streamlit as st
-import pandas as pd
-import numpy as np
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 if 'account_index' not in st.session_state:
     st.session_state['account_index'] = 0
-if 'logged_in' not in st.session_state:
-    st.session_state['logged_in'] = 0
+if 'current_account' not in st.session_state:
+    st.session_state['current_account'] = None
 if 'sandbox' not in st.session_state:
-    st.session_state['sandbox'] = True
+    st.session_state['sandbox'] = False
 if 'tt_session' not in st.session_state:
     st.session_state['tt_session'] = None
 
-st.set_page_config(
-    page_title="tastyreports", 
-    page_icon="assets/icon-cropped.png"
-)
-
-def nav_to(url):
-    nav_script = """
-        <meta http-equiv="refresh" content="0; url='%s'">
-    """ % (url)
-    st.write(nav_script, unsafe_allow_html=True)
+st.set_page_config(page_title="tastyreports", page_icon="📈")
 
 def login(username, password, sandbox):
-    if (not username) or (not password):
-        st.session_state.logged_in = 0
-        st.session_state.tt_session = None
-        return
     st.session_state.sandbox = sandbox
-    st.session_state.tt_session = Session(username, password, is_certification=sandbox)
-    st.session_state.logged_in = 1
+    session = Session(username, password, is_certification=sandbox)
+    st.session_state.tt_session = session
+    account = Account.get_accounts(st.session_state.tt_session)[st.session_state.account_index]
+    st.session_state.current_account = account
 
-if (not st.session_state['logged_in']):
+def logout():
+    st.session_state.tt_session = None
+
+if (not st.session_state['tt_session']):
     st.title("Login")
-    username = st.text_input('Username')
-    password = st.text_input('Password', type='password')
+
+    username = os.getenv('TT_USERNAME', '')
+    password = os.getenv('TT_PASSWORD', '')
+
+    username = st.text_input('Username', value=username)
+    password = st.text_input('Password', type='password', value=password)
     sandbox = st.checkbox('Certification Environment', value=st.session_state.sandbox)
 
     st.button('Login', on_click=login, args=[username, password, sandbox])
 else:
     st.title("tastyreports")
-    st.button('Logout', on_click=login, args=[None, None, True])
+    st.button('Logout', on_click=logout)
