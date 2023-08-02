@@ -3,19 +3,25 @@ from tastytrade.account import Account
 import streamlit as st
 import os
 from dotenv import load_dotenv
+from datetime import datetime, timedelta, date
+import calendar
 
 load_dotenv()
 
-if 'current_account' not in st.session_state:
-    st.session_state['current_account'] = None
-if 'sandbox' not in st.session_state:
-    st.session_state['sandbox'] = os.getenv('SANDBOX', False)
-if 'tt_session' not in st.session_state:
-    st.session_state['tt_session'] = None
-if 'start_date' not in st.session_state:
-    st.session_state['start_date'] = None
-if 'end_date' not in st.session_state:
-    st.session_state['end_date'] = None
+today = date.today()
+first_day_last_month = (today.replace(day=1) - timedelta(days=1)).replace(day=1)
+
+default_values = {
+    'current_account': None,
+    'sandbox': os.getenv('SANDBOX', 'False').lower() in ['true', '1'],
+    'tt_session': None,
+    'start_date': first_day_last_month,
+    'end_date': today
+}
+
+for key, default_value in default_values.items():
+    if key not in st.session_state:
+        st.session_state[key] = default_value
 
 st.set_page_config(page_title="tastyreports", page_icon="📈")
 
@@ -27,7 +33,8 @@ def login(username, password, sandbox):
     st.session_state.current_account = account
 
 def logout():
-    st.session_state.tt_session = None
+    for key in list(st.session_state.keys()):
+        del st.session_state[key]
 
 username = os.getenv('TT_USERNAME', '')
 password = os.getenv('TT_PASSWORD', '')
@@ -61,6 +68,6 @@ else:
     end_date = st.date_input('End Date', format="YYYY-MM-DD", value=st.session_state.end_date)
     st.session_state.end_date = end_date
     
-    if (not username and password):
+    if (not (username and password)):
         st.subheader('Logout')
         st.button('Logout', on_click=logout)
