@@ -6,7 +6,7 @@ from tastytrade.account import Account, AccountBalance, AccountBalanceSnapshot
 @app.route('/pl_chart')
 def pl_chart(account_number=None, start_date=None, end_date=None):
     if account_number is None:
-        account_number = session.get('current_account')
+        account_number = session.get('tt_account')
 
     if start_date is None:
         start_date = datetime.today().replace(day=1)
@@ -14,4 +14,4 @@ def pl_chart(account_number=None, start_date=None, end_date=None):
     if end_date is None:
         end_date = datetime.today()
 
-    return render_template('pl_chart.html', account_numbers=account_numbers, current_account=account_number, start_date=start_date, end_date=end_date)
+    return render_template('pl_chart.html', account_numbers=account_numbers, tt_account=account_number, start_date=start_date, end_date=end_date)
