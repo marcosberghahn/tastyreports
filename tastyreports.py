@@ -1,10 +1,8 @@
-from tastytrade.session import Session
-from tastytrade.account import Account
+from tastytrade import Account, ProductionSession
 import streamlit as st
 import os
 from dotenv import load_dotenv
 from datetime import datetime, timedelta, date
-import calendar
 
 load_dotenv()
 
@@ -12,7 +10,7 @@ today = date.today()
 first_day_last_month = (today.replace(day=1) - timedelta(days=1)).replace(day=1)
 
 default_values = {
-    'current_account': None,
+    'tt_account': None,
     'sandbox': os.getenv('SANDBOX', 'False').lower() in ['true', '1'],
     'tt_session': None,
     'start_date': first_day_last_month,
@@ -27,10 +25,10 @@ st.set_page_config(page_title="tastyreports", page_icon="📈")
 
 def login(username, password, sandbox):
     st.session_state.sandbox = sandbox
-    session = Session(username, password, is_certification=sandbox)
+    session = ProductionSession(username, password)
     st.session_state.tt_session = session
     account = Account.get_accounts(st.session_state.tt_session)[0]
-    st.session_state.current_account = account
+    st.session_state.tt_account = account
 
 def logout():
     for key in list(st.session_state.keys()):
@@ -56,12 +54,12 @@ else:
     accounts = Account.get_accounts(st.session_state.tt_session)
     account_options = {f"{account.account_number} - {account.nickname}": account for account in accounts}
 
-    if 'current_account' not in st.session_state or st.session_state.current_account not in account_options.values():
-        st.session_state.current_account = next(iter(account_options.values()))
+    if 'tt_account' not in st.session_state or st.session_state.tt_account not in account_options.values():
+        st.session_state.tt_account = next(iter(account_options.values()))
 
-    default_index = list(account_options.values()).index(st.session_state.current_account)
+    default_index = list(account_options.values()).index(st.session_state.tt_account)
     selected_option = st.selectbox('Select an account:', list(account_options.keys()), index=default_index)
-    st.session_state.current_account = account_options[selected_option]
+    st.session_state.tt_account = account_options[selected_option]
 
     start_date = st.date_input('Start Date', format="YYYY-MM-DD", value=st.session_state.start_date)
     st.session_state.start_date = start_date

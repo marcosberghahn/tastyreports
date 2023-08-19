@@ -7,7 +7,7 @@ import json
 @app.route('/pl_calendar', methods=['GET', 'POST'])
 def pl_calendar(account_number=None, start_date=None, end_date=None):
     if account_number is None:
-        account_number = session.get('current_account')
+        account_number = session.get('tt_account')
 
     if request.method == 'POST':
         start_date = request.form.get('start_date')
@@ -82,4 +82,4 @@ def pl_calendar(account_number=None, start_date=None, end_date=None):
 
     calendar_json = json.dumps(calendar)
 
-    return render_template('pl_calendar.html', account_numbers=account_numbers, current_account=account_number, start_date=start_date, end_date=end_date, data=calendar_json, snapshots=snapshots)
+    return render_template('pl_calendar.html', account_numbers=account_numbers, tt_account=account_number, start_date=start_date, end_date=end_date, data=calendar_json, snapshots=snapshots)
