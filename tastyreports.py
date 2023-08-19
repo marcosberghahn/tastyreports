@@ -44,8 +44,6 @@ if (not st.session_state['tt_session']):
     st.title("Login")
     form_username = st.text_input('Username', value=username)
     form_password = st.text_input('Password', type='password', value=password)
-    # Not worried about trading right now, this is a read only app
-    # sandbox = st.checkbox('Certification Environment', value=st.session_state.sandbox)
     sandbox = False
 
     st.button('Login', on_click=login, args=[form_username, form_password, sandbox])
