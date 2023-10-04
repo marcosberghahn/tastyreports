@@ -1,0 +1,12 @@
+name: tastyreports
+
+dependencies:
+  - python=3.11.5
+  - numpy
+  - matplotlib
+  - pandas  
+  # - pip:
+  # - streamlit
+  # - python-dotenv~=1.0
+  # - tastytrade~=6.1
+  #   - git+https://github.com/blaze/dask.git#egg=dask[complete]
